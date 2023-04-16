@@ -1,0 +1,12 @@
+name: examples-started
+services:
+  appserver:
+    type: go
+    ssl: false
+  database:
+    type: mariadb
+    portforward: true
+    creds:
+      user: mariadb
+      password: mariadb
+      database: database
