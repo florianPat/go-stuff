@@ -1,4 +1,7 @@
 name: examples-started
+proxy:
+  rabbitmq:
+    - rabbitmq.lndo.site:15672
 services:
   appserver:
     type: go
@@ -10,3 +13,20 @@ services:
       user: mariadb
       password: mariadb
       database: database
+  rabbitmq:
+    type: compose
+    app_mount: false
+    services:
+      image: rabbitmq:3.11-management-alpine
+      command: docker-entrypoint.sh rabbitmq-server
+      ports:
+        - 15672
+      environment:
+        RABBITMQ_SECURE_PASSWORD: yes
+        RABBITMQ_DEFAULT_VHOST: test
+        RABBITMQ_USERNAME: guest
+        RABBITMQ_PASSWORD: guest
+      volumes:
+        - 'rabbitmq_data:/var/lib/rabbitmq/mnesia/'
+    volumes:
+      rabbitmq_data: ~
